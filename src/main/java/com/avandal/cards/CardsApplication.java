@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ComponentScan(basePackages = {
 	"com.avandal.cards.config",
+	"com.avandal.cards.service.impl",
 	"com.avandal.cards.webservice"
 })
 public class CardsApplication {
