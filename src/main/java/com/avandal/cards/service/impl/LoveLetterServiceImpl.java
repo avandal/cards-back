@@ -1,6 +1,10 @@
 package com.avandal.cards.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.avandal.cards.model.Rule;
+import com.avandal.cards.model.card.CardEnum;
 import com.avandal.cards.service.LoveLetterService;
 
 import org.springframework.stereotype.Service;
@@ -34,5 +38,27 @@ public class LoveLetterServiceImpl implements LoveLetterService {
             .addProceeding("En cas d'égalité sur le duel général, le gagnant est désigné sur le nombre de cartes qu'il a jouées.")
             .addProceeding("En cas d'égalité sur ce dernier cas, le gagnant est désigné sur la somme de la valeur des cartes jouées.");
     }
+
+    @Override
+	public List<CardEnum> getDeck() {
+        List<CardEnum> cards = new ArrayList<>();
+        
+        for (int i = 0; i < 5; i++) {
+            cards.add(CardEnum.AS_COEUR);
+        }
+
+        for (int i = 0; i < 2; i++) {
+            cards.add(CardEnum.DEUX_COEUR);
+            cards.add(CardEnum.TROIS_COEUR);
+            cards.add(CardEnum.QUATRE_COEUR);
+            cards.add(CardEnum.CINQ_COEUR);
+        }
+
+        cards.add(CardEnum.SIX_COEUR);
+        cards.add(CardEnum.SEPT_COEUR);
+        cards.add(CardEnum.HUIT_COEUR);
+
+        return cards;
+	}
 
 }

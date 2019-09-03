@@ -1,5 +1,6 @@
 package com.avandal.cards.webservice;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.avandal.cards.dto.RuleDTO;
@@ -7,6 +8,7 @@ import com.avandal.cards.exception.ExceptionEnum;
 import com.avandal.cards.exception.ServiceException;
 import com.avandal.cards.mapper.RuleMapper;
 import com.avandal.cards.model.Rule;
+import com.avandal.cards.model.card.CardEnum;
 import com.avandal.cards.service.LoveLetterService;
 
 import org.slf4j.Logger;
@@ -39,5 +41,12 @@ public class LoveLetterWS {
         }
         
         return ResponseEntity.status(HttpStatus.OK).body(optRuleDTO.get());
+    }
+
+    @RequestMapping("/deck")
+    public ResponseEntity<List<CardEnum>> getDeck() {
+        logger.debug("Called getDeck");
+
+        return ResponseEntity.status(HttpStatus.OK).body(loveLetterService.getDeck());
     }
 }

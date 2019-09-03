@@ -1,4 +1,4 @@
-package com.avandal.cards.model;
+package com.avandal.cards.model.card;
 
 public enum Color {
     TREFLE("♣"), COEUR("♥"), PIQUE("♠"), CARREAU("♦");
