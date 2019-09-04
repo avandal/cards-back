@@ -3,12 +3,14 @@ package com.avandal.cards.webservice;
 import java.util.List;
 import java.util.Optional;
 
+import com.avandal.cards.dto.CardDTO;
 import com.avandal.cards.dto.RuleDTO;
 import com.avandal.cards.exception.ExceptionEnum;
 import com.avandal.cards.exception.ServiceException;
+import com.avandal.cards.mapper.CardMapper;
 import com.avandal.cards.mapper.RuleMapper;
 import com.avandal.cards.model.Rule;
-import com.avandal.cards.model.card.CardEnum;
+import com.avandal.cards.model.card.Card;
 import com.avandal.cards.service.LoveLetterService;
 
 import org.slf4j.Logger;
@@ -30,7 +32,7 @@ public class LoveLetterWS {
     @Autowired
     private LoveLetterService loveLetterService;
 
-    @RequestMapping(value = "/rules")
+    @RequestMapping(value = "/rules", method = RequestMethod.GET)
     public ResponseEntity<RuleDTO> getRules() {
         logger.debug("Called getRules");
         Rule rule = loveLetterService.getRules();
@@ -43,10 +45,12 @@ public class LoveLetterWS {
         return ResponseEntity.status(HttpStatus.OK).body(optRuleDTO.get());
     }
 
-    @RequestMapping("/deck")
-    public ResponseEntity<List<CardEnum>> getDeck() {
+    @RequestMapping(value = "/deck", method = RequestMethod.GET)
+    public ResponseEntity<List<CardDTO>> getDeck() {
         logger.debug("Called getDeck");
-
-        return ResponseEntity.status(HttpStatus.OK).body(loveLetterService.getDeck());
+        List<Card> cards = loveLetterService.getDeck();
+        List<CardDTO> cardDTOs = CardMapper.cardsToCardDTOs(cards);
+        
+        return ResponseEntity.status(HttpStatus.OK).body(cardDTOs);
     }
 }

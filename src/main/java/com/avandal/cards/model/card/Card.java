@@ -1,6 +1,6 @@
 package com.avandal.cards.model.card;
 
-public enum CardEnum {
+public enum Card {
 
     /////////////////
     // Normal deck //
@@ -33,7 +33,7 @@ public enum CardEnum {
     private String value;
     private Color color;
 
-    private CardEnum(String value, Color color) {
+    private Card(String value, Color color) {
         this.value = value;
         this.color = color;
     }

@@ -2,9 +2,14 @@ package com.avandal.cards.dto;
 
 import java.util.Objects;
 
+import com.avandal.cards.model.card.Color;
+
 public class CardDTO {
     private String value;
     private String color;
+
+    public CardDTO() {
+    }
 
     public CardDTO(String value, String color) {
         this.value = value;
@@ -15,8 +20,22 @@ public class CardDTO {
         return value;
     }
 
+    public CardDTO value(String value) {
+        this.value = value;
+        return this;
+    }
+
     public String getColor() {
         return color;
+    }
+
+    public CardDTO color(String color) {
+        this.color = color;
+        return this;
+    }
+
+    public CardDTO color(Color color) {
+        return color(color.getValue());
     }
 
     @Override
