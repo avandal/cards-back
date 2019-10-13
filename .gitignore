@@ -32,3 +32,5 @@ build/
 
 # Java
 mvnw*
+
+src/main/resources/application.properties

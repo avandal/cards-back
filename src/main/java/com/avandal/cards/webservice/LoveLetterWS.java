@@ -13,6 +13,7 @@ import com.avandal.cards.model.Rule;
 import com.avandal.cards.model.card.Card;
 import com.avandal.cards.service.LoveLetterService;
 
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class LoveLetterWS {
     private LoveLetterService loveLetterService;
 
     @RequestMapping(value = "/rules", method = RequestMethod.GET)
+    @ApiOperation(value = "Return the Love Letter's rules.")
     public ResponseEntity<RuleDTO> getRules() {
         logger.debug("Called getRules");
         Rule rule = loveLetterService.getRules();
@@ -46,6 +48,7 @@ public class LoveLetterWS {
     }
 
     @RequestMapping(value = "/deck", method = RequestMethod.GET)
+    @ApiOperation(value = "Return the Love Letter's sorted full deck")
     public ResponseEntity<List<CardDTO>> getDeck() {
         logger.debug("Called getDeck");
         List<Card> cards = loveLetterService.getDeck();
