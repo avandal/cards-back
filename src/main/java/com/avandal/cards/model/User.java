@@ -1,27 +1,42 @@
 package com.avandal.cards.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 @Table(name = "user")
-public class User {
-    @Id @Column
+@SecondaryTable(name = "authorities")
+public class User implements UserDetails {
+    @Id @Column @Getter @Setter
     private String username;
 
-    @Column
+    @Column @Getter @Setter
     private String password;
 
-    @Column
+    @Column(table = "authorities") @Getter @Setter
+    private String authority;
+
+    @Column @Getter @Setter
     private boolean enabled;
 
-    public User(String username, String password, boolean enabled) {
+    public User() {}
+
+    public User(String username, String password, boolean enabled, String authority) {
         this.username = username;
         this.password = password;
         this.enabled = enabled;
+
+        this.authority = authority;
     }
 
     @Override
@@ -31,36 +46,33 @@ public class User {
         User user = (User) o;
         return enabled == user.enabled &&
                 username.equals(user.username) &&
-                password.equals(user.password);
+                password.equals(user.password) &&
+                authority.equals(user.authority);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(username, password, enabled);
+        return Objects.hash(username, password, enabled, authority);
     }
 
-    public String getUsername() {
-        return username;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public String getPassword() {
-        return password;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
     @Override
@@ -68,7 +80,8 @@ public class User {
         return "User{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", enabled=" + enabled +
+                ", enabled=" + enabled + '\'' +
+                ", authority=" + authority +
                 '}';
     }
 }
