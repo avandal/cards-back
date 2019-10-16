@@ -6,6 +6,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -19,6 +20,7 @@ public class JwtServiceImpl implements JwtService {
     private final String secretKey;
     private final long expiredTime;
 
+    @Autowired
     private JwtServiceImpl(Properties jwtProperties) {
         secretKey = jwtProperties.getProperty("secret.key");
         expiredTime = Long.parseLong(jwtProperties.getProperty("expired.time"));
