@@ -1,22 +1,40 @@
 package com.avandal.cards.config;
 
 import com.avandal.cards.service.impl.UserServiceImpl;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Properties;
+
 @Configuration
 @EnableWebSecurity
-@Slf4j
+@PropertySource("classpath:jwt.properties")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    private String key = "secret.key";
+    private String time = "expired.time";
+
+    @Autowired
+    private Environment env;
 
     @Autowired
     private UserServiceImpl userDetailsService;
+
+    @Bean
+    public Properties jwtProperties() {
+        Properties properties = new Properties();
+        properties.put(key, env.getProperty(key));
+        properties.put(time, env.getProperty(time));
+
+        return properties;
+    }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -28,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
             .authorizeRequests()
-                .antMatchers("/loveletter/rules").hasAuthority("admin")
+                .antMatchers("/loveletter/*").hasAuthority("admin")
                 .antMatchers("/", "/dashboard").hasAnyAuthority("admin", "guest")
                 .antMatchers("/login", "/login/signup", "login/create", "/loginProcess").permitAll()
             .and()
